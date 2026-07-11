@@ -1,1 +1,5 @@
-A rota de criar clientes já estão prontas, agora você tem que criar a rota de listar clientes.
+CRIAR CLIENTES ✅
+LISTAR TODOS CLIENTES ✅
+BUSCAR CLIENTE POR ID ✅
+ATUALIZAR CLIENTES ❌
+EXCLUIR CLIENTES ❌
