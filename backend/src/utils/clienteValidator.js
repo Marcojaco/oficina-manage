@@ -86,7 +86,7 @@ async function validarCliente(dadosCliente) {
         throw new Error("O telefone é obrigatório.");
     }
 
-    if (telefone.length < 10 || telefone.length > 11) {
+    if (telefone.length < 10 || telefone.length > 13) {
         throw new Error("Número de telefone inválido.");
     }
 
