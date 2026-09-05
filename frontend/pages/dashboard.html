@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <script src="../js/authGuard.js"></script>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HQR Mecânica — Dashboard</title>
+  <link rel="stylesheet" href="../css/global.css"><link rel="stylesheet" href="../css/app.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand sidebar-brand"><span class="brand-mark">H</span><div><strong>HQR Mecânica</strong><small>Gestão da oficina</small></div></div>
+      <nav>
+        <a class="nav-link active" href="dashboard.html">Dashboard</a>
+        <a class="nav-link" href="clientes.html">Clientes</a>
+        <a class="nav-link" href="veiculos.html">Veículos</a>
+        <a class="nav-link" href="ordens-servico.html">Ordens de serviço</a>
+        <a class="nav-link" href="agenda.html">Agenda</a>
+      </nav>
+      <button id="btn-logout" class="nav-link nav-button">Sair</button>
+    </aside>
+    <main class="content">
+      <header class="topbar"><div><h1>Dashboard</h1><p class="muted">Visão geral da oficina.</p></div></header>
+      <section class="stats-grid">
+        <article class="stat-card"><span>Clientes</span><strong id="total-clientes">—</strong><a href="clientes.html">Ver clientes</a></article>
+        <article class="stat-card"><span>Veículos</span><strong>—</strong><small>Em breve</small></article>
+        <article class="stat-card"><span>Ordens abertas</span><strong>—</strong><small>Em breve</small></article>
+        <article class="stat-card"><span>Agenda</span><strong>—</strong><small>Em breve</small></article>
+      </section>
+      <section class="panel">
+        <div class="panel-header"><div><h2>Acesso rápido</h2><p class="muted">Principais ações.</p></div></div>
+        <div class="quick-grid">
+          <a class="quick-card" href="cliente-form.html"><strong>Novo cliente</strong><span>Cadastrar cliente com busca de CEP.</span></a>
+          <a class="quick-card" href="clientes.html"><strong>Clientes</strong><span>Pesquisar e gerenciar cadastros.</span></a>
+          <a class="quick-card disabled"><strong>Nova OS</strong><span>Disponível na próxima etapa.</span></a>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="../js/config.js"></script><script src="../js/api.js"></script><script src="../js/app.js"></script><script src="../js/dashboard.js"></script>
+</body>
+</html>

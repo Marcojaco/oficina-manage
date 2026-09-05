@@ -1,0 +1,561 @@
+# Checklist completo do que já fizemos no projeto **Oficine Manage**
+
+## ✅ Estrutura inicial do projeto
+
+* [x] Definição da arquitetura em camadas:
+
+```
+Request
+
+↓
+
+Route
+
+↓
+
+Controller
+
+↓
+
+Service
+
+↓
+
+Validator
+
+↓
+
+Model
+
+↓
+
+Banco de Dados
+```
+
+* [x] Separação das responsabilidades:
+
+### Route
+
+* [x] Responsável apenas pelas URLs.
+* [x] Chama apenas Controllers.
+
+### Controller
+
+* [x] Recebe `req`.
+* [x] Recebe `res`.
+* [x] Pega `req.params`.
+* [x] Pega `req.body`.
+* [x] Chama Service.
+* [x] Retorna resposta HTTP.
+
+### Service
+
+* [x] Centraliza regras de negócio.
+* [x] Não utiliza `req` e `res`.
+* [x] Faz validações de negócio.
+* [x] Controla fluxo da aplicação.
+
+### Validator
+
+* [x] Validação dos dados.
+* [x] Tratamento dos dados.
+* [x] Normalização de informações.
+
+### Model
+
+* [x] Responsável somente pelo SQL.
+* [x] Comunicação com MySQL.
+
+---
+
+# ✅ CRUD de Clientes
+
+## POST /clientes
+
+* [x] Criar cliente.
+* [x] Validar dados antes de salvar.
+* [x] Inserir no banco.
+* [x] Retornar cliente criado.
+
+Melhoria feita:
+
+* [x] Antes retornava apenas `insertId`.
+* [x] Agora retorna o cliente completo criado.
+
+Fluxo:
+
+```
+POST
+
+↓
+
+Validator
+
+↓
+
+INSERT
+
+↓
+
+buscar cliente criado
+
+↓
+
+Response
+```
+
+---
+
+## GET /clientes
+
+* [x] Listar clientes.
+* [x] Retornar vários registros.
+* [x] Separar lógica no Model.
+
+---
+
+## GET /clientes/:id
+
+* [x] Buscar cliente por ID.
+* [x] Retornar apenas um objeto.
+* [x] Não retornar array desnecessário.
+* [x] Criar tratamento de cliente inexistente.
+
+---
+
+## PUT /clientes/:id
+
+Implementado:
+
+* [x] Receber ID pelo `req.params`.
+* [x] Receber novos dados pelo `req.body`.
+* [x] Validar ID.
+* [x] Verificar existência do cliente.
+* [x] Validar dados enviados.
+* [x] Verificar CPF duplicado.
+* [x] Atualizar banco.
+* [x] Retornar cliente atualizado.
+
+Fluxo final:
+
+```
+PUT
+
+↓
+
+Recebe ID
+
+↓
+
+Busca cliente
+
+↓
+
+Valida dados
+
+↓
+
+Verifica CPF
+
+↓
+
+UPDATE
+
+↓
+
+Busca cliente atualizado
+
+↓
+
+Retorna resultado
+```
+
+---
+
+# ✅ Melhorias no Service
+
+## Antes
+
+Problemas:
+
+* [x] Muito código dentro das funções.
+* [x] Erros repetidos.
+* [x] Regras misturadas.
+* [x] Difícil escalar para novos módulos.
+
+---
+
+## Agora
+
+Melhorias:
+
+* [x] Criado padrão de erros.
+* [x] Criadas funções auxiliares.
+* [x] Separação melhor das responsabilidades.
+
+---
+
+# ✅ Criado AppError
+
+Arquivo:
+
+```
+src/errors/AppError.js
+```
+
+Implementado:
+
+* [x] Classe personalizada de erro.
+* [x] Herança da classe `Error`.
+* [x] Adicionado `statusCode`.
+* [x] Adicionado nome personalizado.
+
+Uso:
+
+Antes:
+
+```javascript
+const erro = new Error();
+erro.status = 404;
+throw erro;
+```
+
+Agora:
+
+```javascript
+throw new AppError(
+    "Cliente não encontrado",
+    404
+);
+```
+
+---
+
+# ✅ Criadas funções auxiliares
+
+## buscarClienteOuFalhar()
+
+Responsável por:
+
+* [x] Receber ID.
+* [x] Buscar cliente no banco.
+* [x] Verificar existência.
+* [x] Retornar cliente.
+* [x] Lançar erro 404.
+
+---
+
+## verificarCpfDuplicado()
+
+Responsável por:
+
+* [x] Receber CPF.
+* [x] Procurar CPF existente.
+* [x] Ignorar próprio cliente durante PUT.
+* [x] Lançar erro 409 quando necessário.
+
+---
+
+# ✅ Sistema de erros global
+
+## Criado errorHandler
+
+Arquivo:
+
+```
+src/middlewares/errorHandler.js
+```
+
+Responsável por:
+
+* [x] Capturar erros.
+* [x] Ler `statusCode`.
+* [x] Ler `message`.
+* [x] Retornar JSON padronizado.
+* [x] Evitar repetição de tratamento de erro nos Controllers.
+
+Fluxo:
+
+```
+Service
+
+↓
+
+throw AppError
+
+↓
+
+errorHandler
+
+↓
+
+Response
+```
+
+---
+
+# ✅ Criado asyncHandler
+
+Arquivo:
+
+```
+src/middlewares/asyncHandler.js
+```
+
+Responsável por:
+
+* [x] Capturar erros de funções async.
+* [x] Enviar erros para `next()`.
+* [x] Integrar Controllers com errorHandler.
+
+Fluxo:
+
+```
+Controller async
+
+↓
+
+asyncHandler
+
+↓
+
+next(error)
+
+↓
+
+errorHandler
+```
+
+---
+
+# ✅ Controllers refatorados
+
+Removido:
+
+* [x] `try/catch` repetido.
+* [x] Tratamento manual de erros.
+* [x] Código duplicado.
+
+Agora Controller fica responsável apenas por:
+
+* [x] Receber dados.
+* [x] Chamar Service.
+* [x] Retornar resposta.
+
+---
+
+# Estado atual da arquitetura
+
+```
+Request
+
+↓
+
+Route
+
+↓
+
+asyncHandler
+
+↓
+
+Controller
+
+↓
+
+Service
+
+↓
+
+Validator
+
+↓
+
+Model
+
+↓
+
+MySQL
+
+
+Erros:
+
+Service
+
+↓
+
+AppError
+
+↓
+
+errorHandler
+
+↓
+
+Response
+```
+
+---
+
+# Próximas tarefas recomendadas
+
+## 🔲 1. Padronizar todas as Routes
+
+* [x] Importar `asyncHandler`.
+* [x] Envolver todos os Controllers.
+
+Exemplo:
+
+```javascript
+router.put(
+    "/clientes/:id",
+    asyncHandler(clienteController.atualizarCliente)
+);
+```
+
+---
+
+## 🔲 2. Revisar o Validator
+
+Melhorar:
+
+* [x] Campos obrigatórios.
+* [x] Campos vazios.
+* [x] Tratamento de `undefined`.
+* [x] Mensagens específicas.
+* [x] Regras de CPF.
+* [x] Regras de telefone.
+* [x] Regras de CEP.
+
+---
+
+## 🔲 3. Padronizar respostas da API
+
+Criar padrão:
+
+```json
+{
+    "mensagem": "",
+    "dados": {}
+}
+```
+
+Aplicar em:
+
+* [ ] POST.
+* [ ] GET.
+* [ ] PUT.
+* [ ] DELETE.
+
+---
+
+## 🔲 4. Criar DELETE /clientes/:id
+
+Implementar:
+
+* [ ] Route.
+* [ ] Controller.
+* [ ] Service.
+* [ ] Model.
+* [ ] Validação de existência.
+* [ ] Retorno padronizado.
+
+Fluxo:
+
+```
+DELETE
+
+↓
+
+Recebe ID
+
+↓
+
+Verifica existência
+
+↓
+
+DELETE SQL
+
+↓
+
+Retorna sucesso
+```
+
+---
+
+## 🔲 5. Melhorar banco de dados
+
+Adicionar:
+
+* [ ] Chaves estrangeiras.
+* [ ] Índices.
+* [ ] Constraints.
+* [ ] Unique CPF.
+* [ ] Unique email.
+
+---
+
+## 🔲 6. Criar módulo Veículos
+
+Nova estrutura:
+
+```
+vehicles/
+
+controller
+
+service
+
+model
+
+validator
+
+routes
+```
+
+Funcionalidades:
+
+* [ ] Criar veículo.
+* [ ] Listar veículos.
+* [ ] Buscar por ID.
+* [ ] Atualizar veículo.
+* [ ] Deletar veículo.
+
+Relacionamento:
+
+```
+Cliente
+
+1
+
+↓
+
+N
+
+Veículos
+```
+
+---
+
+## 🔲 7. Criar Ordens de Serviço
+
+Depois:
+
+* [ ] Clientes.
+* [ ] Veículos.
+* [ ] Serviços.
+* [ ] Peças.
+* [ ] Status.
+* [ ] Histórico.
+
+---
+
+## Próximo passo imediato recomendado:
+
+1. 🔲 Finalizar padronização das Routes com `asyncHandler`.
+2. 🔲 Revisar Validator.
+3. 🔲 Criar DELETE de Cliente.
+4. 🔲 Criar módulo Veículos.
+
+Essa é a sequência que eu seguiria para não criar complexidade antes da hora.

@@ -2,49 +2,53 @@ const clienteService = require("../services/clienteService");
 
 
 async function criarCliente(req, res) {
-    try {
-        const dadosCliente = req.body;
-        const resultado = await clienteService.criarCliente(dadosCliente);
-        res.status(201).json({
-            mensagem: "controller funcionando",
-            cliente: resultado
-        });
-    }catch (erro) {
-        const status = erro.status || 500;
-        return res.status(status).json({ erro: erro.message || 'Erro ao registrar cliente' });
-    };
-};
+    const dadosCliente = req.body;
 
-async function listarCliente(req, res) {
-    try {
-        const resultado = await clienteService.listarCliente();
-        return res.status(200).json({
-            mensagem: "controller funcionando",
-            cliente: resultado
-        });
-    }catch (erro) {
-        const status = erro.status || 500;
-        return res.status(status).json({ erro: erro.message || 'Erro ao listar cliente'});
-    };
+    const resultado = await clienteService.criarCliente(dadosCliente);
+
+    return res.status(201).json({
+        mensagem: "cliente criado com sucesso",
+        dados: resultado
+    });
+}
+
+async function listarClientes(req, res) {
+        
+    const resultado = await clienteService.listarClientes();
+
+    return res.status(200).json({
+        dados: resultado
+    });
 };
 
 async function buscarClientePorId(req, res) {
-    try {
-        const id = req.params.id;
-        const resultado = await clienteService.buscarClientePorId(id);
-        return res.status(200).json({
-            cliente: resultado
-        });
-    } catch (erro) {
-        const status = erro.status || 500;
-        return res.status(status).json({ erro: erro.message || 'Erro ao buscar cliente por id'});
-    }
-    
-}
 
+    const id = Number(req.params.id);
+
+    const resultado = await clienteService.buscarClientePorId(id);
+
+    return res.status(200).json({
+        dados: resultado
+    });
+};
+
+async function atualizarCliente(req, res) {
+
+    const id = Number(req.params.id);
+
+    const novosDados = req.body;
+
+    const resultado = await clienteService.atualizarCliente(id, novosDados);
+
+    return res.status(200).json({
+        mensagem: "cliente atualizado com sucesso",
+        dados: resultado
+    });
+}
 
 module.exports = {
     criarCliente,
-    listarCliente,
-    buscarClientePorId
+    listarClientes,
+    buscarClientePorId,
+    atualizarCliente
 }

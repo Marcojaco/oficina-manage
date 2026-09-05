@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <script src="../js/authGuard.js"></script>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HQR Mecânica — Cliente</title>
+  <link rel="stylesheet" href="../css/global.css"><link rel="stylesheet" href="../css/app.css">
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand sidebar-brand"><span class="brand-mark">H</span><div><strong>HQR Mecânica</strong><small>Gestão da oficina</small></div></div>
+    <nav><a class="nav-link" href="dashboard.html">Dashboard</a><a class="nav-link active" href="clientes.html">Clientes</a><a class="nav-link" href="veiculos.html">Veículos</a><a class="nav-link" href="ordens-servico.html">Ordens de serviço</a><a class="nav-link" href="agenda.html">Agenda</a></nav>
+    <button id="btn-logout" class="nav-link nav-button">Sair</button>
+  </aside>
+  <main class="content">
+    <header class="topbar"><div><h1 id="titulo-form">Novo cliente</h1><p class="muted">Preencha os dados do cliente.</p></div><a class="btn btn-secondary" href="clientes.html">← VOLTAR</a></header>
+    <div id="mensagem" class="mensagem" role="alert"></div>
+    <section class="panel form-panel">
+      <form id="form-cliente" class="form-grid">
+        <div class="field full"><label for="nome-cliente">Nome</label><input id="nome-cliente" maxlength="150" autocomplete="name" required></div>
+        <div class="field"><label for="telefone-cliente">Telefone</label><input id="telefone-cliente" type="tel" maxlength="15" placeholder="(31) 99999-9999" required></div>
+        <div class="field"><label for="cep-cliente">CEP <span id="cep-status" class="field-status"></span></label><input id="cep-cliente" maxlength="9" placeholder="00000-000" autocomplete="postal-code" required></div>
+        <div class="field"><label for="rua-cliente">Rua</label><input id="rua-cliente"></div>
+        <div class="field"><label for="numero-cliente">Número</label><input id="numero-cliente" maxlength="20" required></div>
+        <div class="field"><label for="bairro-cliente">Bairro</label><input id="bairro-cliente"></div>
+        <div class="field"><label for="cidade-cliente">Cidade</label><input id="cidade-cliente"></div>
+        <div class="field"><label for="estado-cliente">Estado</label><input id="estado-cliente" maxlength="2"></div>
+        <div class="form-actions full"><a class="btn btn-secondary" href="clientes.html">CANCELAR</a><button id="btn-cadastrar" class="btn btn-primary" type="submit">CADASTRAR</button></div>
+      </form>
+    </section>
+  </main>
+</div>
+<script src="../js/config.js"></script><script src="../js/api.js"></script><script src="../js/app.js"></script><script src="../js/cliente-form.js"></script>
+</body>
+</html>
