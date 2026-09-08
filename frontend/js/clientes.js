@@ -20,7 +20,7 @@ function renderClientes(lista) {
       <td>${escapeHtml(cliente.estado || "")}</td>
       <td class="actions">
         <a class="action-link" href="cliente-form.html?id=${encodeURIComponent(cliente.id)}">Editar</a>
-        <a class="action-link" href="cliente.html?id=${encodeURIComponent(cliente.id)}">Ver</a>
+        <button class="action-link btn-excluir" data-id="${encodeURIComponent(cliente.id)}">Excluir</button>
       </td>
     </tr>`).join("");
 }
@@ -52,3 +52,24 @@ async function carregarClientes() {
   }
 }
 carregarClientes();
+
+tbody.addEventListener("click", async (event) => {
+  const botao = event.target.closest(".btn-excluir");
+  if (!botao) return;
+
+  const id = botao.dataset.id;
+  const confirmar = confirm("Tem certeza que deseja excluir este cliente?");
+  if (!confirmar) return;
+
+  botao.disabled = true;
+  botao.textContent = "Excluindo...";
+
+  try {
+    await apiRequest(`/clientes/${id}`, { method: "DELETE" });
+    await carregarClientes();
+  } catch (error) {
+    alert(error.message);
+    botao.disabled = false;
+    botao.textContent = "Excluir";
+  }
+});
