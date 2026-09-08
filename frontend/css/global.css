@@ -38,6 +38,25 @@ button {
     justify-content: center;
 }
 
+.btn-excluir {
+    background: none;
+    border: none;
+    padding: 0;
+
+    color: #dc2626;
+    font: inherit;
+}
+
+.btn-excluir:hover {
+    color: #991b1b;
+    text-decoration: underline;
+}
+
+.btn-excluir:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
 .btn-primary {
     background: #17202a;
     color: #fff;
