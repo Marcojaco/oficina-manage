@@ -44,6 +44,7 @@ async function listarClientes() {
         estado,
         cep
     FROM clientes
+    WHERE ativo = 1
     `
   );
   return linhas;
@@ -62,12 +63,23 @@ async function buscarClientePorId(id) {
             estado,
             cep
         FROM clientes
-        WHERE id = ?
+        WHERE id = ? AND ativo = 1
         `,
         [id]
     );
     return linhas[0] || null;
 };
+
+async function deletarCliente(id) {
+    await pool.query(
+        `
+        UPDATE clientes
+        SET ativo = 0
+        WHERE id = ?
+        `,
+        [id]
+    );
+}
 
 
 async function atualizarCliente(id, novosDados) {
@@ -108,5 +120,6 @@ async function atualizarCliente(id, novosDados) {
   criarCliente,
   listarClientes,
   buscarClientePorId,
-  atualizarCliente
+  atualizarCliente,
+  deletarCliente
  };
