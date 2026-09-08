@@ -33,8 +33,19 @@ async function criarCliente(dadosCliente) {
  };
 
 async function listarClientes() {
-  const [linhas] = await pool
-    .query('SELECT id, nome, telefone, endereco FROM clientes');
+  const [linhas] = await pool.query(
+    `
+    SELECT
+        id,
+        nome,
+        telefone,
+        endereco,
+        cidade,
+        estado,
+        cep
+    FROM clientes
+    `
+  );
   return linhas;
 };
 
