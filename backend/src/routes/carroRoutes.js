@@ -30,4 +30,10 @@ router.put(
     asyncHandler(carroController.atualizarCarro)
 );
 
+router.delete(
+    "/carros/:id",
+    authMiddleware,
+    asyncHandler(carroController.deletarCarro)
+);
+
 module.exports = router;

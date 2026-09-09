@@ -26,3 +26,12 @@
 -- ----------------------------------------------------------
 ALTER TABLE clientes
 ADD COLUMN ativo TINYINT(1) NOT NULL DEFAULT 1;
+
+-- ----------------------------------------------------------
+-- 003 - Soft delete em carros
+-- Data: 2026-09-08
+-- Motivo: módulo de veículos implementado com o mesmo padrão
+--         de soft delete usado em clientes.
+-- ----------------------------------------------------------
+ALTER TABLE carros
+ADD COLUMN ativo TINYINT(1) NOT NULL DEFAULT 1;
