@@ -102,7 +102,8 @@ label {
     font-size: 14px;
 }
 
-input {
+input,
+select {
     width: 100%;
     border: 1px solid #cbd2da;
     border-radius: 8px;
@@ -111,7 +112,8 @@ input {
     outline: none;
 }
 
-input:focus {
+input:focus,
+select:focus {
     border-color: #17202a;
     box-shadow: 0 0 0 3px rgba(23, 32, 42, 0.08);
 }
