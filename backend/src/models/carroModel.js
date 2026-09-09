@@ -54,11 +54,13 @@ async function listarCarros(clienteId) {
         const [linhas] = await pool.query(
             `
             SELECT
-                id, cliente_id, placa, marca, modelo,
-                ano, km, chassi, renavam, observacoes, created_at
-            FROM carros
-            WHERE ativo = 1 AND cliente_id = ?
-            ORDER BY id DESC
+                c.id, c.cliente_id, c.placa, c.marca, c.modelo,
+                c.ano, c.km, c.chassi, c.renavam, c.observacoes, c.created_at,
+                cl.nome AS cliente_nome
+            FROM carros c
+            JOIN clientes cl ON cl.id = c.cliente_id
+            WHERE c.ativo = 1 AND c.cliente_id = ?
+            ORDER BY c.id DESC
             `,
             [clienteId]
         );
@@ -68,11 +70,13 @@ async function listarCarros(clienteId) {
     const [linhas] = await pool.query(
         `
         SELECT
-            id, cliente_id, placa, marca, modelo,
-            ano, km, chassi, renavam, observacoes, created_at
-        FROM carros
-        WHERE ativo = 1
-        ORDER BY id DESC
+            c.id, c.cliente_id, c.placa, c.marca, c.modelo,
+            c.ano, c.km, c.chassi, c.renavam, c.observacoes, c.created_at,
+            cl.nome AS cliente_nome
+        FROM carros c
+        JOIN clientes cl ON cl.id = c.cliente_id
+        WHERE c.ativo = 1
+        ORDER BY c.id DESC
         `
     );
     return linhas;
@@ -83,10 +87,12 @@ async function buscarCarroPorId(id) {
     const [linhas] = await pool.query(
         `
         SELECT
-            id, cliente_id, placa, marca, modelo,
-            ano, km, chassi, renavam, observacoes, created_at
-        FROM carros
-        WHERE id = ? AND ativo = 1
+            c.id, c.cliente_id, c.placa, c.marca, c.modelo,
+            c.ano, c.km, c.chassi, c.renavam, c.observacoes, c.created_at,
+            cl.nome AS cliente_nome
+        FROM carros c
+        JOIN clientes cl ON cl.id = c.cliente_id
+        WHERE c.id = ? AND c.ativo = 1
         `,
         [id]
     );
